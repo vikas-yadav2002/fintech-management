@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  firstName String
+  lastName  String
+  password  String
+  accounts  Account[] // One user can have multiple accounts
+}
+
+model Account {
+  id        Int       @id @default(autoincrement())
+  user_id   Int
+  type      String
+  balance   Float
+  user      User      @relation(fields: [user_id], references: [id])
+  transactionsFrom Transaction[] @relation("fromAccount")
+  transactionsTo   Transaction[] @relation("toAccount")
+  createdAt DateTime @default(now())
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+}
+
+model Transaction {
+  id          Int        @id @default(autoincrement())
+  amount      Float
+  type        TransactionType
+  fromAccountId Int
+  toAccountId   Int
+  status      String?   // e.g., pending, completed, failed
+  description String?
+  time        DateTime  @default(now())
+  fromAccount Account   @relation("fromAccount", fields: [fromAccountId], references: [id])
+  toAccount   Account   @relation("toAccount", fields: [toAccountId], references: [id])
+}
