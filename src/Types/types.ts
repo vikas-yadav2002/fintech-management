@@ -14,9 +14,9 @@ TransactionSchema = z.object({
     toAccountId: z.number().int(),
     status: z.string().nullable().optional(), // Optional nullable field
     description: z.string().nullable().optional(), // Optional nullable field
-    time: z.date(),
-    fromAccount: z.lazy(() => AccountSchema), // Reference to AccountSchema
-    toAccount: z.lazy(() => AccountSchema),   // Reference to AccountSchema
+    time: z.date().optional(),
+    fromAccount: z.lazy(() => AccountSchema).optional(), // Reference to AccountSchema
+    toAccount: z.lazy(() => AccountSchema).optional(),   // Reference to AccountSchema
 });
 
 // Now define AccountSchema, using the forward-declared UserSchema
