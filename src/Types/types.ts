@@ -25,20 +25,20 @@ AccountSchema = z.object({
     user_id: z.number().int(),
     type: z.string(),
     balance: z.number(),
-    user: z.lazy(() => UserSchema), // Reference to UserSchema
+    // user: z.lazy(() => UserSchema), // Reference to UserSchema
     transactionsFrom: z.array(z.lazy(() => TransactionSchema)).optional(), // Optional because relations can be absent in some cases
     transactionsTo: z.array(z.lazy(() => TransactionSchema)).optional(),   // Optional because relations can be absent in some cases
-    createdAt: z.date(),
+    createdAt: z.date().optional(),
 });
 
-// Finally, define UserSchema, now referring to AccountSchema
+//  UserSchema, now referring to AccountSchema
 UserSchema = z.object({
     id: z.number().int().optional(),
     username: z.string().email(),
     firstName: z.string(),
     lastName: z.string(),
     password: z.string(),
-    accounts: z.array(z.lazy(() => AccountSchema)).optional(), // Reference to AccountSchema
+    accounts: z.array(z.lazy(() => AccountSchema)), // Reference to AccountSchema
 });
 
 // Export the schemas

@@ -28,7 +28,7 @@ const authRouter = (req: Request, res: Response, next: NextFunction) => {
             return res.status(401).send({ message: 'Access denied' });
         }
     } catch (error) {
-        console.error('JWT verification error:', error);
+        // console.error('JWT verification error:', error);
         return res.status(401).send({ message: 'Access denied' });
     }
 };
